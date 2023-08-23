@@ -1,34 +1,26 @@
 const express = require('express');
+const dotenv = require('dotenv');
+//const { PORT } = require('./config');
 const { databaseConnection } = require('./database');
-const { PORT } = require('./config');
 const expressApp = require('./express-app');
-//const { CreateChannel } = require('./utils')
-
-require('dotenv').config();
-
 
 const StartServer = async() => {
+
+    dotenv.config();
 
     const app = express();
     
     await databaseConnection();
-
-    //const channel = await CreateChannel()
-
-    await expressApp(app);
     
+    await expressApp(app);
 
     app.listen(process.env.PORT, () => {
-          console.log(`listening to port ${process.env.PORT}`);
+        console.log(`listening to port ${process.env.PORT}`);
     })
     .on('error', (err) => {
         console.log(err);
         process.exit();
     })
-    .on('close', () => {
-        channel.close();
-    })
-    
 
 }
 
